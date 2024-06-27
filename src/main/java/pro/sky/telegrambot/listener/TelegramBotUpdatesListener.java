@@ -5,25 +5,24 @@ import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.configuration.TelegramBotConfiguration;
 import pro.sky.telegrambot.service.impl.MessageParseServiceImpl;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
-    private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
-
-    @Autowired
-    private TelegramBot telegramBot;
-
-    @Autowired
-    private MessageParseServiceImpl messageParseService;
+    private final Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
+    private final TelegramBot telegramBot;
+    private final MessageParseServiceImpl messageParseService;
+    private final TelegramBotConfiguration config;
 
     @PostConstruct
     public void init() {
@@ -41,7 +40,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 inCommand = update.message().text();
             }
             if (inCommand.equals("/start")) {
-                SendMessage helloMessage = new SendMessage(chatId, "Welcome to my bot");
+                SendMessage helloMessage = new SendMessage(chatId, config.getWelcome());
                 SendResponse response = telegramBot.execute(helloMessage);
                 if (!response.isOk()) {
                     logger.error("Response isn't correct. Error code: " + response.errorCode());

@@ -1,8 +1,13 @@
 package pro.sky.telegrambot.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "notification_tasks")
 public class NotificationTask {
