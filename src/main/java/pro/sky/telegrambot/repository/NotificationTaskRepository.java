@@ -6,6 +6,7 @@ import pro.sky.telegrambot.entity.NotificationTask;
 import java.time.LocalDateTime;
 import java.util.List;
 
+//Репозиторий для работы с таблицей. Поиск по совпадению с заданной датой
 public interface NotificationTaskRepository extends JpaRepository<NotificationTask, Long> {
     List<NotificationTask> findAllBySheduleDateTime(LocalDateTime localDateTime);
 }

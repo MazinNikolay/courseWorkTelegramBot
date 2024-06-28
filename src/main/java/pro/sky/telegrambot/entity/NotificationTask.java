@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+//Сущность - объект, записываеммый в таблицу. Создается в migration.sql
 @Data
 @NoArgsConstructor
 @Entity

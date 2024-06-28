@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+//Доступ п геттерам и сеттерам с помощью Lombok
 @Data
 @Configuration
 public class TelegramBotConfiguration {
-
+    //Переменные из properties
     @Value("${telegram.bot.response.welcome}")
     private String welcome;
 
@@ -23,6 +24,7 @@ public class TelegramBotConfiguration {
     @Value("${telegram.bot.token}")
     private String token;
 
+    //Создаем бот
     @Bean
     public TelegramBot telegramBot() {
         TelegramBot bot = new TelegramBot(token);

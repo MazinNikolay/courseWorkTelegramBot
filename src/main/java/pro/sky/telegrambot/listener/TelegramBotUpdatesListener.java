@@ -29,26 +29,29 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         telegramBot.setUpdatesListener(this);
     }
 
+    //Получаем коллекцию записей чата и итерируемся по ней
     @Override
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
-            // Process your updates here
+            //Если команда содержит текст, то записываем ее текст и Id чата в переменные
             String inCommand = "";
             Long chatId = update.message().chat().id();
             if (update != null) {
                 inCommand = update.message().text();
             }
+            //Если команда /start, то отправляем приветственное сообщение
             if (inCommand.equals("/start")) {
                 SendMessage helloMessage = new SendMessage(chatId, config.getWelcome());
                 SendResponse response = telegramBot.execute(helloMessage);
                 if (!response.isOk()) {
                     logger.error("Response isn't correct. Error code: " + response.errorCode());
                 }
+                //В противном случае парсим строку и проверяем на соответствие шаблону, сохраняем в БД
+            } else {
+                messageParseService.parseMessage(chatId, inCommand);
             }
-            messageParseService.parseMessage(chatId, inCommand);
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
-
 }
